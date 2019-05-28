@@ -1,47 +1,17 @@
 
-import{ Navbar,Nav,NavDropdown }from 'react-bootstrap';
 import React,{ Component } from 'react';
+import { Link } from "react-router-dom";
+import { Nav, Navbar, NavItem } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+
 
 class MyTest extends Component{
-
-    render(){
+    render() {
         return (
-            <>
-  <Navbar bg="light">
-    <Navbar.Brand href="#home">Brand link</Navbar.Brand>
-  </Navbar>
-  <br />
-  <Navbar bg="light">
-    <Navbar.Brand>Brand text</Navbar.Brand>
-  </Navbar>
-  <br />
-  <Navbar bg="dark">
-    <Navbar.Brand href="#home">
-      <img
-        src="/logo.svg"
-        width="30"
-        height="30"
-        className="d-inline-block align-top"
-        alt="React Bootstrap logo"
-      />
-    </Navbar.Brand>
-  </Navbar>
-  <br />
-  <Navbar bg="dark" variant="dark">
-    <Navbar.Brand href="#home">
-      <img
-        alt=""
-        src="/logo.svg"
-        width="30"
-        height="30"
-        className="d-inline-block align-top"
-      />
-      {' React Bootstrap'}
-    </Navbar.Brand>
-  </Navbar>
-</>
-          );
-        }
+            <div className="MyTest">       
+          </div>
+        );
+      }
 }
   
 
