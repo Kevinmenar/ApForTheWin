@@ -13,7 +13,14 @@ function ListWithRemoveItem (){
   const handleClick = id => {
     setList(list.filter(item => item.id !== id));
   };
-
+/*{list.map(item => (
+                            <li key={item.id}>
+                            <label margin={30} padding={30}>{item.name}</label>
+                            <button margin={30} padding={30} type="button" onClick={() => handleClick(item.id)}>
+                                Remove
+                            </button>
+                            </li>
+                        ))}*/
 return (
     <div class="container-fluid">
 	<div class="row">
@@ -22,17 +29,22 @@ return (
 				Nombre la farmacia
 			</h3>
 			<div class="row">
-				<div class="col-md-8">
-					<ol>
+            <div class="col-md-8">
+					<h3>
+						Medicamentos 
+					</h3>
+					<div id="card-485932">
                     {list.map(item => (
-                            <li key={item.id}>
-                            <label>{item.name}</label>
-                            <button type="button" onClick={() => handleClick(item.id)}>
-                                Remove
-                            </button>
+                            <li key={item.id} class="card" >
+                                <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href={item.id}>{item.name}</a>
+                                <div id={item.id} class="collapse show">
+								<div class="card-body">
+									Precio del medicamento
+								</div>
+							</div>
                             </li>
                         ))}
-					</ol>
+					</div>
 				</div>
 				<div class="col-md-4">
 					<h3>
