@@ -7,7 +7,7 @@ const initialList = [
   { id: 'c', name: 'Learn GraphQL' },
 ];
 
-function ListWithRemoveItem (){
+function AdminFarmacia(){
   const [list, setList] = React.useState(initialList);
 
   const handleClick = id => {
@@ -73,4 +73,4 @@ return (
   );
 };
 
-export default ListWithRemoveItem
+export default AdminFarmacia
