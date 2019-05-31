@@ -7,7 +7,7 @@ const initialList = [ //aqui es donde esperaria que se solicitara la info de los
   { id: 'c', name: 'Learn GraphQL' },
 ];
 
-const farmaList = [
+const farmaList = [//aqui es donde esperaria que se solicitara la info de las farmacias activas 
     {id: '1', name: 'Farmacia1'},
     {id: '2', name: 'Farmacia2'},
     {id: '3', name: 'Farmacia3'},
@@ -22,6 +22,7 @@ function AdminFarmacia(){
   const handleClick = id => {
     setList(list.filter(item => item.id !== id));
   };
+
 return (
     <div class="container-fluid">
 	<div class="row">
