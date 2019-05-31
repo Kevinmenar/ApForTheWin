@@ -1,10 +1,19 @@
 import React from 'react';
 import './AdminFarm.css'
 
-const initialList = [
+const initialList = [ //aqui es donde esperaria que se solicitara la info de los medicamanetos que posee la farmacia
   { id: 'a', name: 'Learn React' },
   { id: 'b', name: 'Learn Firebase' },
   { id: 'c', name: 'Learn GraphQL' },
+];
+
+const farmaList = [
+    {id: '1', name: 'Farmacia1'},
+    {id: '2', name: 'Farmacia2'},
+    {id: '3', name: 'Farmacia3'},
+    {id: '4', name: 'Farmacia4'},
+    {id: '5', name: 'Farmacia5'},
+    {id: '6', name: 'Farmacia6'},
 ];
 
 function AdminFarmacia(){
@@ -13,14 +22,6 @@ function AdminFarmacia(){
   const handleClick = id => {
     setList(list.filter(item => item.id !== id));
   };
-/*{list.map(item => (
-                            <li key={item.id}>
-                            <label margin={30} padding={30}>{item.name}</label>
-                            <button margin={30} padding={30} type="button" onClick={() => handleClick(item.id)}>
-                                Remove
-                            </button>
-                            </li>
-                        ))}*/
 return (
     <div class="container-fluid">
 	<div class="row">
@@ -51,19 +52,11 @@ return (
 						Transferir a farmacia.
 					</h3>
 					<div class="btn-group btn-group-vertical" role="group">
-						 
-						<button class="btn btn-secondary" type="button">
-							Left
-						</button> 
-						<button class="btn btn-secondary" type="button">
-							Center
-						</button> 
-						<button class="btn btn-secondary" type="button">
-							Right
-						</button> 
-						<button class="btn btn-secondary" type="button">
-							Justify
-						</button>
+                    {farmaList.map(item => (
+                        <button key = {item.id} class="btn btn-secondary" type="button">
+                        {item.name}
+                        </button>
+                        ))}
 					</div>
 				</div>
 			</div>
