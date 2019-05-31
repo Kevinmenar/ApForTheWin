@@ -1,15 +1,14 @@
 import React from 'react';
-import './EscogerFarmacia.css'
+import './VisualizarComentarios.css'
 
-const initialList = [ //aqui es donde esperaria que se solicitara la info de las farmacia
-  { id: 'a', name: 'Farmacia1' },
-  { id: 'b', name: 'Farmacia2' },
-  { id: 'c', name: 'Farmacia3' },
+const initialList = [ //aqui es donde esperaria que se solicitara la info de los comentarios que posee la farmacia
+  { id: 'a', name: 'Learn React' },
+  { id: 'b', name: 'Learn Firebase' },
+  { id: 'c', name: 'Learn GraphQL' },
 ];
 
 
-
-function EscogerFarmacia(){
+function VisualizarComentarios(){
   const [list, setList] = React.useState(initialList);
 
   const handleClick = id => {
@@ -21,11 +20,12 @@ return (
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
-				Escoger una farmacia
+				Visualizar Comentarios
 			</h3>
 			<div class="row">
             <div class="col-md-8">
 					<h3>
+						Comentarios
 					</h3>
 					<div id="card-485932">
                     {list.map(item => (
@@ -44,4 +44,4 @@ return (
   );
 };
 
-export default EscogerFarmacia
+export default VisualizarComentarios
