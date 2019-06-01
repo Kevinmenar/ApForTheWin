@@ -1,5 +1,6 @@
 import React from 'react';
 import './EscogerFarmacia.css'
+import AdminFarmacia from './AdminFarm'
 
 const initialList = [ //aqui es donde esperaria que se solicitara la info de las farmacia
   { id: 'a', name: 'Farmacia1' },
@@ -15,10 +16,16 @@ function EscogerFarmacia(){
   const handleClick = id => {
     setList(list.filter(item => item.id !== id));
   };
+  function getCurrentView () {
+      return (
+        <AdminFarmacia />
+      );
+    
+  }
 
 return (
-    <div class="container-fluid">
-	<div class="row">
+<div class="container-fluid">
+	  <div class="row">
 		<div class="col-md-12">
 			<h3>
 				Escoger una farmacia
@@ -30,9 +37,7 @@ return (
 					<div id="card-485932">
                     {list.map(item => (
                             <li key={item.id} class="card" >
-                                <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href={item.id}>{item.name}</a>
-                                <div id={item.id} class="collapse show">
-							</div>
+                                <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href = "#">{item.name}</a>
                             </li>
                         ))}
 					</div>
