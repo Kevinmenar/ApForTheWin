@@ -20,7 +20,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import Chart from './Chart'
-import  AdminFarmacia from './AdminFarm'
+import AdminFarmacia from './AdminFarm'
 import EscogerFarmacia from './EscogerFarmacia'
 import VisualizarComentarios from './VisualizarComentarios'
 
@@ -131,6 +131,14 @@ function App() {
       return(
         <VisualizarComentarios />
       );
+    } else if(selectedIndex === 3) {
+      return(
+        <EscogerFarmacia />
+      );
+    } else if(selectedIndex === 4) {
+      return(
+        <AdminFarmacia />
+      );
     } else {
       return(null);
     }
@@ -201,7 +209,7 @@ function App() {
         </div>
         <Divider />
         <List>
-          {['Charts', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Menu Principal', 'Grafico', 'Ver Comentarios', 'Ver Farmacias','Administrar farmacia(test)'].map((text, index) => (
             <ListItem 
               button key={text}
               selected={selectedIndex === index}

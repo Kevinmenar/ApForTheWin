@@ -38,7 +38,7 @@ return (
 					<div id="card-485932">
                     {list.map(item => (
                             <li key={item.id} class="card" >
-                                <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href={item.id}>{item.name}</a>
+                                <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href="#">{item.name}</a>
                                 <div id={item.id} class="collapse show">
 								<div class="card-body">
 									Precio del medicamento
