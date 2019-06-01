@@ -20,6 +20,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import Chart from './Chart'
+import  AdminFarmacia from './AdminFarm'
+import EscogerFarmacia from './EscogerFarmacia'
+import VisualizarComentarios from './VisualizarComentarios'
 
 const drawerWidth = 240;
 
@@ -100,7 +103,7 @@ function App() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   function handleDrawerOpen() {
     setOpen(true);
@@ -120,9 +123,13 @@ function App() {
   }
 
   function getCurrentView () {
-    if ( selectedIndex == 1) {
+    if ( selectedIndex === 1) {
       return (
         <Chart />
+      );
+    } else if(selectedIndex === 2) {
+      return(
+        <VisualizarComentarios />
       );
     } else {
       return(null);
