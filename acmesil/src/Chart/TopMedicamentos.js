@@ -1,6 +1,7 @@
 import React, { Component } from  'react'
-import {Bar, Line, Pie} from 'react-chartjs-2';
+import {Bar, Line, Pie} from 'react-chartjs-2'
 import Badge from 'react-bootstrap/Badge'
+import MedicineItem from './MedicineItem'
 
 class TopMedicamentos extends Component {
 
@@ -13,11 +14,15 @@ class TopMedicamentos extends Component {
 
   componentWillMount(){
     this.getChartData();
+    //this.testArr = this.state.chartData.labels.map( function(x, i){
+    //    return {"name": x, "quantity": this.state.chartData.datasets.data[i]}
+    //  }.bind(this));
   }
 
   getChartData(){
     // Ajax calls here
     this.setState({
+      testArr: [{name:"Parecetamol",quantity:50}],
       chartData:{
         labels: ['Paracetamol', 'Panadol', 'Ibuprofeno', 'viagra', 'Codeina', 'Cannabis'],
         datasets:[
@@ -35,8 +40,16 @@ class TopMedicamentos extends Component {
           }
         ]
       }
-    });
+    },
+    () => {
+      this.state.testArr = this.state.chartData.labels.map((name, index) => (
+        {"name":name, "quantity": this.state.chartData.datasets[0].data[index]}
+      ));
+      console.log(this.state.testArr);
+    }
+  );
   }
+
 
   static defaultProps = {
     displayTitle:true,
@@ -51,19 +64,10 @@ class TopMedicamentos extends Component {
         <h1 align="center">Medicamentos más consultados</h1>
         <div className="row row-no-gutters">
           <div className="col-sm-4">
-            <ul class="list-group">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cras justo odio
-                <Badge pill variant="info">14</Badge>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Dapibus ac facilisis in
-                <Badge pill variant="info">2</Badge>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Morbi leo risus
-                <Badge pill variant="info">1</Badge>
-              </li>
+            <ul className="list-group">
+              {this.state.testArr.map((item) => (
+                <MedicineItem name={item.name} quantity={item.quantity}/>
+              ))}
             </ul>
           </div>
           <div className="col-sm-8">
