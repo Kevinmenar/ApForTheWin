@@ -20,6 +20,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import Chart from './Chart'
+import TopMedicamentos from './Chart/TopMedicamentos'
 import AdminFarmacia from './AdminFarm'
 import EscogerFarmacia from './EscogerFarmacia'
 import VisualizarComentarios from './VisualizarComentarios'
@@ -132,7 +133,9 @@ function App() {
       return(
         <EscogerFarmacia />
       );
-    } else {
+    } else if(selectedIndex === 3) {
+      return <TopMedicamentos/>
+    }else{
       return(null);
     }
   }
@@ -161,7 +164,7 @@ function App() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Please login before to start
+            Acmecil
           </Typography>
           <div className={classes.search}>
             <InputBase
@@ -174,6 +177,7 @@ function App() {
             />
             <InputBase
               placeholder="Password"
+              type="password"
               onChange={(e) => {console.log(e.target.value)}}
               classes={{
                 root: classes.inputRoot,
@@ -202,8 +206,8 @@ function App() {
         </div>
         <Divider />
         <List>
-          {['Menu Principal', 'Grafico', 'Ver Farmacias'].map((text, index) => (
-            <ListItem 
+          {['Menu Principal', 'Grafico', 'Ver Farmacias','Medicamentos más consultados'].map((text, index) => (
+            <ListItem
               button key={text}
               selected={selectedIndex === index}
               onClick={event => handleListItemClick(event, index)}
