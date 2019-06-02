@@ -2,6 +2,7 @@ import React, { Component } from  'react'
 import {Bar, Line, Pie} from 'react-chartjs-2'
 import Badge from 'react-bootstrap/Badge'
 import MedicineItem from './MedicineItem'
+import {db} from '../Firebase/firebase'
 
 class TopMedicamentos extends Component {
 
@@ -14,48 +15,66 @@ class TopMedicamentos extends Component {
 
   componentWillMount(){
     this.getChartData();
-    //this.testArr = this.state.chartData.labels.map( function(x, i){
-    //    return {"name": x, "quantity": this.state.chartData.datasets.data[i]}
-    //  }.bind(this));
   }
+
 
   getChartData(){
     // Ajax calls here
+    this.dbref = db.ref().child('Medicamentos').orderByChild('consultas').limitToLast(6);
+    console.log(this.dbref);
+    var labels = [];
+    var queries = [];
+    var testArr = [];
+    this.dbref.on('value',
+      function(snapshot) {
+        snapshot.forEach(
+          function(childSnapshot) {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+            labels.unshift(childData.nombre);
+            queries.unshift(childData.consultas);
+            testArr.unshift({"name":childData.nombre, "id":childKey, "quantity":childData.consultas});
+      });
+    });
+    console.log(testArr);
     this.setState({
-      testArr: [{name:"Parecetamol",quantity:50}],
+      testArr: testArr,
       chartData:{
-        labels: ['Paracetamol', 'Panadol', 'Ibuprofeno', 'viagra', 'Codeina', 'Cannabis'],
+        labels: labels,
         datasets:[
           {
             label:'Número de consultas',
-            data:[
-              500,
-              300,
-              312,
-              150,
-              40,
-              13
-            ],
+            data:queries,
             backgroundColor: 'rgba(0, 99, 132, 0.7)'
           }
         ]
       }
-    },
-    () => {
-      this.state.testArr = this.state.chartData.labels.map((name, index) => (
-        {"name":name, "quantity": this.state.chartData.datasets[0].data[index]}
-      ));
-      console.log(this.state.testArr);
-    }
-  );
+    });
+
+
   }
 
 
   static defaultProps = {
-    displayTitle:true,
-    displayLegend: true,
-    legendPosition:'right',
-    location:'City'
+    testArr: [],
+    chartData:{
+      labels: ['Paracetamol', 'Panadol', 'Ibuprofeno', 'viagra', 'Codeina', 'Cannabis'],
+      datasets:[
+        {
+          label:'Número de consultas',
+          data:[
+            500,
+            300,
+            312,
+            150,
+            40,
+            13
+          ],
+          backgroundColor: 'rgba(0, 99, 132, 0.7)'
+        }
+      ]
+    },
+
   }
 
   render() {
