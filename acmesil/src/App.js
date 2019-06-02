@@ -23,6 +23,7 @@ import Chart from './Chart'
 import  AdminFarmacia from './AdminFarm'
 import EscogerFarmacia from './EscogerFarmacia'
 import VisualizarComentarios from './VisualizarComentarios'
+import {auth} from './Firebase/firebase'
 
 const drawerWidth = 240;
 
@@ -104,9 +105,14 @@ function App() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [loginState, setloginState] = React.useState(false);
+  const [user, setUser] = React.useState('');
+  const [pw, setPw] = React.useState('');
 
   function handleDrawerOpen() {
-    setOpen(true);
+    if (auth.currentUser!=null) {
+      setOpen(true);
+    }
   }
 
   function handleDrawerClose() {
@@ -118,8 +124,12 @@ function App() {
     setSelectedIndex(index);
   }
 
-  function handleChange(event) {
-    console.log(event.target.value)
+  function handleChangeUser(event) {
+    setUser(event.target.value);
+  }
+
+  function handleChangePw(event) {
+    setPw(event.target.value);
   }
 
   function getCurrentView () {
@@ -136,8 +146,58 @@ function App() {
     }
   }
 
+  function displayLogin() {
+    if (!loginState) {
+      return (
+        <div> 
+          <Typography variant="h6" noWrap>
+            Please login before to start
+          </Typography>
+          <div className={classes.search}>
+            <InputBase
+              placeholder="User"
+              onChange={(e) => {handleChangeUser(e)}}
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+            />
+            <InputBase
+              placeholder="Password"
+              type="password"
+              onChange={(e) => {handleChangePw(e)}}
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+            />
+            <Button variant="contained" size="small" color="primary" className={classes.margin} onClick={event => clickLoginEvent(event)}>
+              Summit
+            </Button>
+          </div>
+        </div>
+        );
+    } else {
+        return (
+          <Typography variant="h6" noWrap>
+            Bienvenido a Acmesil
+          </Typography>
+        );
+    }
+  }
+
   function clickLoginEvent (e) {
-    console.log("Login!!! ");
+
+    auth.signInWithEmailAndPassword(user, pw)
+      .then(() => {
+        console.log("Login Succes")
+        setloginState(true);
+        setUser('');
+        setPw('');
+      })
+      .catch(() => {
+        console.log('Authentication failed.');
+      });
   }
 
   return (
@@ -159,30 +219,7 @@ function App() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Please login before to start
-          </Typography>
-          <div className={classes.search}>
-            <InputBase
-              placeholder="User"
-              onChange={(e) => {console.log(e.target.value)}}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-            />
-            <InputBase
-              placeholder="Password"
-              onChange={(e) => {console.log(e.target.value)}}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-            />
-            <Button variant="contained" size="small" color="primary" className={classes.margin} onClick={event => clickLoginEvent(event)}>
-              Summit
-            </Button>
-          </div>
+          { displayLogin() }
         </Toolbar>
       </AppBar>
       <Drawer
