@@ -130,15 +130,7 @@ function App() {
       );
     } else if(selectedIndex === 2) {
       return(
-        <VisualizarComentarios />
-      );
-    } else if(selectedIndex === 3) {
-      return(
         <EscogerFarmacia />
-      );
-    } else if(selectedIndex === 4) {
-      return(
-        <FarmController />
       );
     } else {
       return(null);
@@ -210,7 +202,7 @@ function App() {
         </div>
         <Divider />
         <List>
-          {['Menu Principal', 'Grafico', 'Ver Comentarios', 'Ver Farmacias','Administrar farmacia(test)'].map((text, index) => (
+          {['Menu Principal', 'Grafico', 'Ver Farmacias'].map((text, index) => (
             <ListItem 
               button key={text}
               selected={selectedIndex === index}
