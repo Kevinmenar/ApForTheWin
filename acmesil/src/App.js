@@ -23,6 +23,7 @@ import Chart from './Chart'
 import AdminFarmacia from './AdminFarm'
 import EscogerFarmacia from './EscogerFarmacia'
 import VisualizarComentarios from './VisualizarComentarios'
+import FarmController from './FarmaciController'
 
 const drawerWidth = 240;
 
@@ -137,7 +138,7 @@ function App() {
       );
     } else if(selectedIndex === 4) {
       return(
-        <AdminFarmacia />
+        <FarmController />
       );
     } else {
       return(null);
