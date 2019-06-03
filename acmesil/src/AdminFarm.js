@@ -48,10 +48,11 @@ export default class AdminFarmacia extends Component {
     .on("value", (snapshot) => {
       let medicines = snapshot.val();
       if(medicines!=null){
-        Object.keys(medicines).map((item, i) => {
-          console.log("medicines[item] ", medicines[item]);
-          listMedicines[i] = medicines[item];
-        });
+        listMedicines = medicines;
+        //Object.keys(medicines).map((item, i) => {
+          //console.log("medicines[item] ", medicines[item]);
+          //listMedicines[i] = medicines[item];
+        //});
         this.setState({
           initialList: listMedicines
         });
@@ -65,8 +66,14 @@ export default class AdminFarmacia extends Component {
   }
 
   handleClick = (index) => {
+    let newList = this.state.initialList;
 
-    console.log(index);
+    Object.keys(this.state.initialList).map((item, i) => {
+      let updateDataFood = {};
+      db.ref().child("Medicamentos/" + item).update({
+        idFarmacia:index
+      })
+    });
   };
 
   render(){
@@ -83,10 +90,10 @@ export default class AdminFarmacia extends Component {
               Medicamentos 
             </h3>
             <div id="card-485932">
-                      {this.state.initialList.map(item => (
-                              <li key={item.id} class="card" >
-                                  <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href="#">{item.nombre}</a>
-                                  <div id={item.price} class="collapse show">
+                      {Object.keys(this.state.initialList).map(item => (
+                              <li key={item} class="card" >
+                                  <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href="#">{this.state.initialList[item].nombre}</a>
+                                  <div id={this.state.initialList[item].price} class="collapse show">
                             <div class="card-body">
                               {item.price}
                             </div>
