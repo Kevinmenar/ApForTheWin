@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from "react";
+import {db} from './Firebase/firebase'
 import './AdminFarm.css'
 
 const initialList = [ //aqui es donde esperaria que se solicitara la info de los medicamanetos que posee la farmacia
@@ -16,55 +17,102 @@ const farmaList = [//aqui es donde esperaria que se solicitara la info de las fa
     {id: '6', name: 'Farmacia6'},
 ];
 
-function AdminFarmacia(){
-  const [list, setList] = React.useState(initialList);
+export default class AdminFarmacia extends Component {
+  constructor(props) {
+    super(props);
 
-  const handleClick = id => {
-    setList(list.filter(item => item.id !== id));
+    this.state = {
+      initialList: [],
+      farmaList: [],
+      nombreFarmacia: ""
+    };
+  }
+
+  getFarmacias = () => {
+    let listPharmacies = []
+    db.ref().child('Pharmacy/')
+      .on("value", (snapshot) => {
+        let pharmacy = snapshot.val();
+        //Object.keys(pharmacy).map((item, i) => {
+          //listPharmacies[i] = pharmacy[item];
+        //});
+        this.setState({
+          farmaList: pharmacy
+        });
+      });
+  }
+
+  getMedicamentos = (idFarmacia) => {
+    let listMedicines = [];
+    db.ref().child('Medicamentos/').orderByChild("idFarmacia").equalTo(idFarmacia)
+    .on("value", (snapshot) => {
+      let medicines = snapshot.val();
+      if(medicines!=null){
+        Object.keys(medicines).map((item, i) => {
+          console.log("medicines[item] ", medicines[item]);
+          listMedicines[i] = medicines[item];
+        });
+        this.setState({
+          initialList: listMedicines
+        });
+      }
+    });
+  }
+
+  componentWillMount(){
+    this.getFarmacias();
+  }
+
+  handleClick = (index) => {
+    this.getMedicamentos(index);
+    this.setState({
+      nombreFarmacia: this.state.farmaList[index].nombre
+    });
+    console.log(index);
   };
 
-return (
-    <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<h3>
-				Nombre la farmacia
-			</h3>
-			<div class="row">
-            <div class="col-md-8">
-					<h3>
-						Medicamentos 
-					</h3>
-					<div id="card-485932">
-                    {list.map(item => (
-                            <li key={item.id} class="card" >
-                                <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href="#">{item.name}</a>
-                                <div id={item.id} class="collapse show">
-								<div class="card-body">
-									Precio del medicamento
-								</div>
-							</div>
-                            </li>
-                        ))}
-					</div>
-				</div>
-				<div class="col-md-4">
-					<h3>
-						Transferir a farmacia.
-					</h3>
-					<div class="btn-group btn-group-vertical" role="group">
-                    {farmaList.map(item => (
-                        <button key = {item.id} class="btn btn-secondary" type="button">
-                        {item.name}
-                        </button>
-                        ))}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-  );
+  render(){
+    return (
+      <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>
+          {this.state.nombreFarmacia}
+        </h3>
+        <div class="row">
+              <div class="col-md-8">
+            <h3>
+              Medicamentos 
+            </h3>
+            <div id="card-485932">
+                      {this.state.initialList.map(item => (
+                              <li key={item.id} class="card" >
+                                  <a class="card-link" data-toggle="collapse" data-parent="#card-485932" href="#">{item.nombre}</a>
+                                  <div id={item.price} class="collapse show">
+                            <div class="card-body">
+                              {item.price}
+                            </div>
+                </div>
+                              </li>
+                          ))}
+            </div>
+          </div>
+          <div class="col-md-4">
+            <h3>
+              Transferir a farmacia.
+            </h3>
+            <div class="btn-group btn-group-vertical" role="group">
+                      {Object.keys(this.state.farmaList).map(item => (
+                          <button key = {item} class="btn btn-secondary" type="button" onClick={()=>{this.handleClick(item)}}>
+                          {this.state.farmaList[item].nombre}
+                          </button>
+                          ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    );
+  }
 };
-
-export default AdminFarmacia
