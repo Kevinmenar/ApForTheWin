@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import "./RealizarComentarios.css";
+import {db} from './Firebase/firebase'
 
 export default class RealizarComentarios extends Component {
   constructor(props) {
@@ -17,14 +18,38 @@ export default class RealizarComentarios extends Component {
     return this.state.nombreFarmacia.length > 0 && this.state.comentario.length > 0;
   }
 
+  handleTextArea = (e) => {
+    this.setState({
+      comentario: e.target.value
+    });
+  }
+
   handleChange = event => {
     this.setState({
-      [event.target.id]: event.target.value
+      nombreFarmacia: event.target.value
     });
   }
 
   handleSubmit = event => {
     event.preventDefault();
+  }
+
+  handleButtonEvent = (event) => {
+    let pharmacyId = ""
+    db.ref().child('Pharmacy/').orderByChild("nombre").equalTo(this.state.nombreFarmacia)
+    .on("value", (snapshot) => {
+      let pharmacy = snapshot.val();
+      Object.keys(pharmacy).map((item, i) => {
+        console.log("item ", item);
+        pharmacyId = item;
+      });
+    });
+    
+    if(pharmacyId !== "" && this.state.comentario !== "") {
+      db.ref().child("Commetaries/" + pharmacyId).push().set({
+        Commentary: this.state.comentario
+      });
+    }
   }
 
   render() {
@@ -41,69 +66,21 @@ export default class RealizarComentarios extends Component {
               autoFocus
               type="nombreFarmacia"
               value={this.state.nombreFarmacia}
-              onChange={this.handleChange}
+              onChange={(e)=>{this.handleChange(e)}}
             />
           </Form.Group>
           <Form.Group controlId="comentario" bsSize="large">
-            <label for="field5"><span>Ingrese el comentario acerca de la farmacia: <span class="required"></span></span><textarea name="field5" class="textarea-field"></textarea></label>
+            <label for="field5"><span>Ingrese el comentario acerca de la farmacia: <span class="required"></span></span><textarea name="field5" onChange={(e) => {this.handleTextArea(e)}} class="textarea-field"></textarea></label>
           </Form.Group>
           <div class="form-button" bsSize ="large">
-          <Button variant="dark" size="lg" block>
+          <Button onClick={(e) => {this.handleButtonEvent(e)}} variant="dark" size="lg" block >
             Ingresar comentario
           </Button>
           </div>
         </form>
       </div>
 
-
-//<label for="field1"><span>Name <span class="required">*</span></span><input type="text" class="input-field" name="field1" value="" /></label>
-//<label for="field2"><span>Email <span class="required">*</span></span><input type="text" class="input-field" name="field2" value="" /></label>
-//<label><span>Telephone</span><input type="text" class="tel-number-field" name="tel_no_1" value="" maxlength="4" />-<input type="text" class="tel-number-field" name="tel_no_2" value="" maxlength="4"  />-<input type="text" class="tel-number-field" name="tel_no_3" value="" maxlength="10"  /></label>
-//<label for="field4"><span>Regarding</span><select name="field4" class="select-field">
-//<option value="General Question">General</option>
-//<option value="Advertise">Advertisement</option>
-//<option value="Partnership">Partnership</option>
-//</select></label>
-//<label for="field5"><span>Message <span class="required">*</span></span><textarea name="field5" class="textarea-field"></textarea></label>
-
-//<label><span> </span><input type="submit" value="Submit" /></label>
-//</form>
-//</div>
     );
   }
 }
 
-/*
-render() {
-  return (
-    <div className="Login">
-      <form onSubmit={this.handleSubmit}>
-        <Form.Group controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
-          <FormControl
-            autoFocus
-            type="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
-          <FormControl
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </Form.Group>
-        <Button
-          block
-          bsSize="large"
-          disabled={!this.validateForm()}
-          type="submit"
-        >
-          Login
-        </Button>
-      </form>
-    </div>
-  );
-}*/

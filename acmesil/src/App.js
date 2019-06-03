@@ -16,14 +16,17 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import Add from '@material-ui/icons/Add';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
-import Chart from './Chart'
-import  AdminFarmacia from './AdminFarm'
+import Chart from './Chart/Chart'
+import TopMedicamentos from './Chart/TopMedicamentos'
+import AdminFarmacia from './AdminFarm'
 import EscogerFarmacia from './EscogerFarmacia'
 import VisualizarComentarios from './VisualizarComentarios'
 import {auth} from './Firebase/firebase'
+import FarmController from './FarmaciController'
+import RealizarComentarios from './RealizarComentarios'
 
 const drawerWidth = 240;
 
@@ -104,7 +107,7 @@ function App() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = React.useState(-1);
   const [loginState, setloginState] = React.useState(false);
   const [user, setUser] = React.useState('');
   const [pw, setPw] = React.useState('');
@@ -139,9 +142,19 @@ function App() {
       );
     } else if(selectedIndex === 2) {
       return(
-        <VisualizarComentarios />
+        <EscogerFarmacia />
       );
-    } else {
+    } else if(selectedIndex === 3) {
+      return <TopMedicamentos/>
+    } else if (selectedIndex === 0) {
+      return (
+        <RealizarComentarios/>
+      );
+    } else if (selectedIndex === 4) {
+      return (
+        <VisualizarComentarios/>
+      );
+    }else {
       return(null);
     }
   }
@@ -151,7 +164,7 @@ function App() {
       return (
         <div> 
           <Typography variant="h6" noWrap>
-            Please login before to start
+            Acmecil
           </Typography>
           <div className={classes.search}>
             <InputBase
@@ -238,26 +251,18 @@ function App() {
         </div>
         <Divider />
         <List>
-          {['Charts', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem 
+          {['Realizar Comentario', 'Usuarios más activos', 'Ver Farmacias','Medicamentos más consultados', 'Visualizar comentarios'].map((text, index) => (
+            <ListItem
               button key={text}
               selected={selectedIndex === index}
               onClick={event => handleListItemClick(event, index)}
             >
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{ <Add />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {
