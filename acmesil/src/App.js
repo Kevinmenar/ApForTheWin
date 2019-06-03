@@ -142,7 +142,7 @@ function App() {
       );
     } else if(selectedIndex === 2) {
       return(
-        <FarmController />
+        <EscogerFarmacia />
       );
     } else if(selectedIndex === 3) {
       return <TopMedicamentos/>

@@ -42,9 +42,9 @@ export default class AdminFarmacia extends Component {
       });
   }
 
-  getMedicamentos = (idFarmacia) => {
+  getMedicamentos = () => {
     let listMedicines = [];
-    db.ref().child('Medicamentos/').orderByChild("idFarmacia").equalTo(idFarmacia)
+    db.ref().child('Medicamentos/').orderByChild("idFarmacia").equalTo(this.props.idFarmacia)
     .on("value", (snapshot) => {
       let medicines = snapshot.val();
       if(medicines!=null){
@@ -61,13 +61,11 @@ export default class AdminFarmacia extends Component {
 
   componentWillMount(){
     this.getFarmacias();
+    this.getMedicamentos();
   }
 
   handleClick = (index) => {
-    this.getMedicamentos(index);
-    this.setState({
-      nombreFarmacia: this.state.farmaList[index].nombre
-    });
+
     console.log(index);
   };
 
